@@ -14,7 +14,7 @@ interface CopilotPanelProps {
 const WELCOME: CopilotMessage = {
   id: 'welcome',
   role: 'assistant',
-  content: "Hi! I'm your KAM 360 assistant. I can route you to specialists:\n\n• **KAM** — Create & manage merchants, portfolio\n• **Adoption** — BNPL, tokenization, checkout penetration\n• **Cross-sell** — Instant refunds, EMI, loyalty\n• **Volume** — Subscriptions, international cards\n• **SR Recovery** — Root cause, routing, 3DS\n\nAsk in natural language or pick an agent below.",
+  content: "Hi! I'm your KAM 360 assistant. I give **expected impact** and **suggestions** for each intervention — no need to ask.\n\n• **KAM** — Portfolio, merchants, prioritisation\n• **Adoption** — BNPL, tokenization\n• **Cross-sell** — Refunds, EMI, loyalty\n• **Volume** — Subscriptions, international cards\n• **SR Recovery** — Root cause, routing, 3DS\n\nTry: \"Top interventions with impact\" or ask about any merchant. I'll always include impact and next steps.",
   timestamp: Date.now(),
 };
 
@@ -32,8 +32,8 @@ export function CopilotPanel({
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  const handleSend = () => {
-    const text = input.trim();
+  const handleSend = (optionalText?: string) => {
+    const text = (optionalText ?? input).trim();
     if (!text) return;
     setInput('');
     setMessages((m) => [
@@ -45,12 +45,14 @@ export function CopilotPanel({
     // Simulate agent routing and response
     setTimeout(() => {
       const agent = getAgentById(activeAgentId || 'orchestrator');
-      const intMatch = INTERVENTIONS.find(
-        (i) =>
-          text.toLowerCase().includes(i.merchantName.toLowerCase()) ||
-          text.toLowerCase().includes('root cause') ||
-          text.toLowerCase().includes('playbook')
-      );
+      const q = text.toLowerCase();
+      const matchIntervention = (i: (typeof INTERVENTIONS)[0]) => {
+        const mn = i.merchantName.toLowerCase();
+        const nameParts = mn.split(/[\s(]+/).filter((p) => p.length > 2);
+        const nameMatch = q.includes(mn) || nameParts.some((p) => q.includes(p));
+        return nameMatch || (q.includes('bnpl') && i.category === 'Adoption' && mn.includes('bigbasket')) || (q.includes('bnpl') && i.category === 'Adoption' && mn.includes('flipkart')) || (q.includes('upi') && mn.includes('flipkart')) || (q.includes('zomato') && mn.includes('zomato')) || (q.includes('swiggy') && mn.includes('swiggy')) || (q.includes('bookmyshow') && mn.includes('bookmyshow')) || (q.includes('root cause') && i.agentId === 'sr-recovery') || q.includes('playbook');
+      };
+      const intMatch = INTERVENTIONS.find(matchIntervention) ?? (q.includes('intervention') || q.includes('impact') || q.includes('insight') ? INTERVENTIONS[0] : null);
       const reply: CopilotMessage = {
         id: `a-${Date.now()}`,
         role: 'assistant',
@@ -90,6 +92,11 @@ export function CopilotPanel({
             {a.shortName}
           </button>
         ))}
+      </div>
+      <div className="copilot-quick-prompt">
+        <button type="button" onClick={() => handleSend('Top interventions with expected impact and suggestions')}>
+          ✨ Top interventions with impact
+        </button>
       </div>
 
       <div className="copilot-messages">
@@ -149,6 +156,12 @@ export function CopilotPanel({
         }
         .chip:hover, .chip.active { background: var(--accent); color: white; border-color: var(--accent); }
         .chip-icon { font-size: 14px; }
+        .copilot-quick-prompt { padding: 8px 16px; border-bottom: 1px solid var(--border); }
+        .copilot-quick-prompt button {
+          width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px dashed var(--border);
+          background: transparent; color: var(--text-muted); font-size: 12px; cursor: pointer;
+        }
+        .copilot-quick-prompt button:hover { background: var(--bg-hover); color: var(--accent); border-color: var(--accent); }
         .copilot-messages {
           flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 12px;
         }
@@ -207,20 +220,50 @@ function formatContent(content: string) {
 function getSimulatedReply(
   query: string,
   agentId: AgentId,
-  intervention?: (typeof INTERVENTIONS)[0]
+  intervention?: (typeof INTERVENTIONS)[0] | null
 ): string {
   const q = query.toLowerCase();
-  if (q.includes('root cause') && intervention) {
-    return `Running root-cause analysis for: "${intervention.title}". Check the Interventions tab for the full report. I've suggested actions: Pick Task, Play Book.`;
+  const wantsTopInsights = /top|insight|impact|suggestion|priority|what should i/i.test(query);
+
+  if (wantsTopInsights) {
+    const top = INTERVENTIONS.slice(0, 3);
+    let out = '**Top 3 interventions with expected impact and suggestions:**\n\n';
+    top.forEach((int, idx) => {
+      out += `**${idx + 1}. ${int.merchantName}** — ${int.title}\n`;
+      if (int.aiImpact) out += `Impact: ${int.aiImpact}\n`;
+      if (int.aiSuggestions?.length) {
+        out += `Suggestions: ${int.aiSuggestions.slice(0, 2).join(' ')}\n`;
+      }
+      out += '\n';
+    });
+    out += 'Open the **Interventions** tab for full list and actions.';
+    return out;
   }
-  if (q.includes('playbook') && intervention) {
-    return `Opening playbook for: "${intervention.title}". Steps: 1) Review merchant config 2) Enable feature in dashboard 3) Notify merchant 4) Track adoption.`;
+
+  if (intervention) {
+    let out = '';
+    if (q.includes('root cause')) {
+      out += `Root-cause focus: **${intervention.title}**\n\n`;
+    } else if (q.includes('playbook')) {
+      out += `Playbook: **${intervention.title}**\n\n`;
+    } else {
+      out += `**${intervention.title}**\n\n`;
+    }
+    if (intervention.aiImpact) {
+      out += `**Expected impact:** ${intervention.aiImpact}\n\n`;
+    }
+    if (intervention.aiSuggestions?.length) {
+      out += `**Suggestions:**\n${intervention.aiSuggestions.map((s) => `• ${s}`).join('\n')}\n\n`;
+    }
+    out += 'You can Pick Task, run Play Book, or dig into Root Cause from the Interventions tab.';
+    return out;
   }
+
   if (q.includes('create') && q.includes('merchant')) {
     return 'Opening **Create merchant** flow. Use the "Manage Merchants" tab to add a new merchant and assign to your portfolio.';
   }
   if (q.includes('portfolio') || q.includes('health')) {
-    return 'Portfolio summary: 5 merchants, 12 issues resolved this week, ₹2.4 Cr business impact. Top priority: SR Recovery on Flipkart (UPI), then Adoption on BigBasket (BNPL).';
+    return 'Portfolio summary: 5 merchants, 12 issues resolved this week, ₹2.4 Cr business impact. Top priority: SR Recovery on Flipkart (UPI), then Adoption on BigBasket (BNPL). Ask "Top interventions with impact" for AI impact and suggestions.';
   }
-  return `Understood. The ${agentId} flow is ready. You can pick a task, run a playbook, or ask for a root-cause analysis from the Interventions tab.`;
+  return `Understood. Ask me about a **merchant** or say **"Top interventions with impact"** — I'll give expected impact and suggestions for each.`;
 }

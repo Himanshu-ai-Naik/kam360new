@@ -32,6 +32,10 @@ export interface Intervention {
   description: string;
   actions: ('Pick Task' | 'Play Book' | 'Root Cause' | 'Ignore')[];
   agentId: AgentId;
+  /** AI-generated: expected impact if intervention is acted on (no KAM ask needed) */
+  aiImpact?: string;
+  /** AI-generated: concrete suggestions (proactive, not KAM-led) */
+  aiSuggestions?: string[];
 }
 
 export interface AgentDefinition {

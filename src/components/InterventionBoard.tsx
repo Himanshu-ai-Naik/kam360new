@@ -72,6 +72,22 @@ export function InterventionBoard({ onSelectIntervention, onOpenCopilot }: Inter
               </div>
               <h4 className="int-title">{int.title}</h4>
               <p className="int-desc">{int.description}</p>
+              {int.aiImpact && (
+                <div className="int-ai-block">
+                  <span className="int-ai-label">AI impact</span>
+                  <p className="int-ai-impact">{int.aiImpact}</p>
+                </div>
+              )}
+              {int.aiSuggestions && int.aiSuggestions.length > 0 && (
+                <div className="int-ai-block">
+                  <span className="int-ai-label">AI suggestions</span>
+                  <ul className="int-ai-suggestions">
+                    {int.aiSuggestions.map((s, idx) => (
+                      <li key={idx}>{s}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               <div className="int-actions">
                 {int.actions.map((action) => (
                   <button
@@ -131,6 +147,11 @@ export function InterventionBoard({ onSelectIntervention, onOpenCopilot }: Inter
         }
         .int-action-btn:hover { background: var(--accent); color: white; border-color: var(--accent); }
         .int-agent { margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-muted); }
+        .int-ai-block { margin-bottom: 12px; padding: 12px; border-radius: 8px; background: rgba(59, 130, 246, 0.08); border: 1px solid rgba(59, 130, 246, 0.25); }
+        .int-ai-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--accent); }
+        .int-ai-impact { margin: 6px 0 0; font-size: 13px; line-height: 1.5; color: var(--text); }
+        .int-ai-suggestions { margin: 6px 0 0; padding-left: 18px; font-size: 12px; line-height: 1.6; color: var(--text-muted); }
+        .int-ai-suggestions li { margin-bottom: 4px; }
       `}</style>
     </div>
   );

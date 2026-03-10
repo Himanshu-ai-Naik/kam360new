@@ -20,10 +20,10 @@ export const AGENTS: AgentDefinition[] = [
     ],
     capabilities: ['Merchant CRUD', 'Portfolio view', 'Agent routing', 'Task assignment'],
     suggestedPrompts: [
-      'Add a new merchant for onboarding',
+      'Top interventions with expected impact and suggestions',
       'Which merchants need attention this week?',
       'Summarize my portfolio health',
-      'Create a task for Zomato BNPL adoption',
+      'Add a new merchant for onboarding',
     ],
   },
   {
@@ -40,9 +40,9 @@ export const AGENTS: AgentDefinition[] = [
     ],
     capabilities: ['Adoption analytics', 'Playbooks', 'A/B suggestions', 'Merchant-specific tips'],
     suggestedPrompts: [
-      'Why is BNPL adoption low for BigBasket?',
+      'BNPL impact and suggestions for BigBasket',
       'Playbook: Increase card tokenization to 60%',
-      'Compare my BNPL adoption vs industry average',
+      'Expected impact for adoption interventions',
     ],
   },
   {
@@ -59,9 +59,9 @@ export const AGENTS: AgentDefinition[] = [
     ],
     capabilities: ['Product recommendations', 'Revenue impact', 'Implementation playbooks', 'Eligibility checks'],
     suggestedPrompts: [
-      'Enable instant refunds for Zomato',
-      'Show EMI opportunity for orders above ₹5,000',
-      'Cross-sell loyalty suite for this merchant',
+      'Impact and suggestions for Zomato instant refunds',
+      'EMI impact for Flipkart high-value orders',
+      'Cross-sell loyalty suite — expected impact',
     ],
   },
   {
@@ -78,8 +78,8 @@ export const AGENTS: AgentDefinition[] = [
     ],
     capabilities: ['Volume forecasting', 'Integration checklists', 'Go-live playbooks', 'Revenue uplift'],
     suggestedPrompts: [
-      'Enable Swiggy One subscription payments',
-      'Check international card setup for Zomato',
+      'Swiggy One subscription — expected impact and suggestions',
+      'International cards for Zomato — impact',
       'Playbook: Enable e-mandate for recurring',
     ],
   },
@@ -98,9 +98,9 @@ export const AGENTS: AgentDefinition[] = [
     ],
     capabilities: ['Root cause analysis', 'Routing recommendations', 'Playbooks', 'Benchmark comparison'],
     suggestedPrompts: [
-      'Root cause: UPI SR drop on Flipkart',
-      'Fix 3DS failures on HDFC Cybersource',
-      'Why did SBI net banking SR drop?',
+      'UPI SR Flipkart — impact and suggestions',
+      '3DS failures BookMyShow — expected impact',
+      'SBI net banking SR — root cause and suggestions',
     ],
   },
 ];
