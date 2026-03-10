@@ -13,6 +13,8 @@ npm run dev
 
 Replace `YOUR_USERNAME` with your GitHub username (and `kam360` with your repo name if different).
 
+**First time?** See **[DO_THIS_NEXT.md](./DO_THIS_NEXT.md)** for the exact steps to push to GitHub and run the app.
+
 Open http://localhost:5174 (or the port Vite prints).
 
 ## What’s included

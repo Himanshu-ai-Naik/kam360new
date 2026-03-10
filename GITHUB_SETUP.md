@@ -1,6 +1,8 @@
 # Create the GitHub project for KAM 360
 
-Follow these steps to put this project on GitHub.
+**Repo already exists and remote is set?** Use **[DO_THIS_NEXT.md](./DO_THIS_NEXT.md)** — you only need to run `git push -u origin main`.
+
+Otherwise, follow these steps to put this project on GitHub.
 
 ## 1. Set your Git identity (one-time)
 
