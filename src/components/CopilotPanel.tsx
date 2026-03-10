@@ -134,7 +134,7 @@ export function CopilotPanel({
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
         />
-        <button type="button" className="copilot-send" onClick={handleSend}>
+        <button type="button" className="copilot-send" onClick={() => handleSend()}>
           <Send size={18} />
         </button>
       </div>
@@ -219,7 +219,7 @@ function formatContent(content: string) {
 
 function getSimulatedReply(
   query: string,
-  agentId: AgentId,
+  _agentId: AgentId,
   intervention?: (typeof INTERVENTIONS)[0] | null
 ): string {
   const q = query.toLowerCase();

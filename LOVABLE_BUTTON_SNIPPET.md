@@ -18,7 +18,7 @@ Use one of the options below depending on how your Lovable app is built.
 
 ```jsx
 <a
-  href="https://YOUR-GENAI-URL.com"
+  href="https://kam360new.vercel.app"
   target="_blank"
   rel="noopener noreferrer"
   style={{
@@ -39,16 +39,14 @@ Use one of the options below depending on how your Lovable app is built.
 </a>
 ```
 
-**Replace `https://YOUR-GENAI-URL.com`** with:
-- Your **deployed** Gen-AI app URL (e.g. after deploying the `payu-orbit-ai` repo to Vercel/Netlify), or  
-- For local testing: `http://localhost:5174`
+**Live Gen-AI app:** [https://kam360new.vercel.app](https://kam360new.vercel.app) (already set above). For local testing use `http://localhost:5174`.
 
 ### Option B: As a `<button>` that opens URL
 
 ```jsx
 <button
   type="button"
-  onClick={() => window.open('https://YOUR-GENAI-URL.com', '_blank', 'noopener,noreferrer')}
+  onClick={() => window.open('https://kam360new.vercel.app', '_blank', 'noopener,noreferrer')}
   style={{
     display: 'inline-flex',
     alignItems: 'center',
@@ -68,7 +66,7 @@ Use one of the options below depending on how your Lovable app is built.
 </button>
 ```
 
-Again replace `https://YOUR-GENAI-URL.com` with your actual Gen-AI app URL.
+The URL above is the live app: https://kam360new.vercel.app
 
 ---
 
@@ -79,7 +77,7 @@ If you don’t have a URL yet:
 1. Push the `payu-orbit-ai` code to GitHub (you already have **kam360new**).
 2. Go to [Vercel](https://vercel.com) or [Netlify](https://netlify.com) and **Import** the repo `Himanshu-ai-Naik/kam360new`.
 3. Deploy with default settings (build: `npm run build`, output: `dist`).
-4. Use the generated URL (e.g. `https://kam360new.vercel.app`) in the button `href` / `window.open` above.
+4. The button snippets above already use **https://kam360new.vercel.app**.
 
 ---
 
@@ -89,7 +87,7 @@ If you don’t have a URL yet:
 |------|--------|
 | 1 | In Lovable, open the Interventions tab view. |
 | 2 | Paste the button (Option A or B) in the toolbar/header. |
-| 3 | Replace `https://YOUR-GENAI-URL.com` with your deployed Gen-AI URL (or `http://localhost:5174` for local). |
+| 3 | Button uses **https://kam360new.vercel.app** (or use `http://localhost:5174` for local). |
 | 4 | Save and publish in Lovable. |
 
 Result: users see **"✨ Open Gen-AI experience"** in the Interventions tab and are redirected to the Gen-AI UI in a new tab.

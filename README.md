@@ -3,7 +3,7 @@
 Gen-AI led UI experience for the KAM 360 dashboard.
 
 - **Lovable app (main dashboard):** [https://kam-360.lovable.app](https://kam-360.lovable.app)
-- **This repo:** Multiple agents aligned to the [Interventions](https://kam-360.lovable.app) use cases, plus **create & manage merchants** for KAMs.
+- **Gen-AI app (this repo, live):** [https://kam360new.vercel.app](https://kam360new.vercel.app) — agents, impact & suggestions, Interventions tab.
 
 ## Get started
 
