@@ -68,6 +68,22 @@ export function CopilotPanel({
       };
       setMessages((m) => [...m, reply]);
       setIsTyping(false);
+      // If embedded in Lovable (or another parent), send structured output for UI/UX
+      if (typeof window !== 'undefined' && window.self !== window.parent && reply.role === 'assistant') {
+        window.parent.postMessage(
+          {
+            type: 'KAM360_AGENT_OUTPUT',
+            payload: {
+              agentId: reply.agentId,
+              interventionId: reply.interventionId,
+              content: reply.content,
+              actions: reply.actions,
+              timestamp: reply.timestamp,
+            },
+          },
+          '*'
+        );
+      }
     }, 800);
   };
 
