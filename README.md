@@ -11,6 +11,8 @@ npm install
 npm run dev
 ```
 
+Replace `YOUR_USERNAME` with your GitHub username (and `kam360` with your repo name if different).
+
 Open http://localhost:5174 (or the port Vite prints).
 
 ## What’s included
