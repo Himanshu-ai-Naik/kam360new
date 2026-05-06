@@ -28,3 +28,6 @@ npm-debug.log*
 
 # TypeScript
 *.tsbuildinfo
+
+# Redshift config (has DB credentials)
+scripts/redshift_config.json

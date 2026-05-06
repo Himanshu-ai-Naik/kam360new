@@ -1,0 +1,22 @@
+{
+  "cluster_endpoint": "your-cluster.xxxxx.region.redshift.amazonaws.com",
+  "port": 5439,
+  "database": "dev",
+  "user": "your_user",
+  "password": "your_password",
+  "mid_value": 147203,
+  "schema": {
+    "schema_name": "public",
+    "transactions_table": "transactions",
+    "columns": {
+      "mid": "mid",
+      "amount": "amount",
+      "status": "status",
+      "txn_date": "txn_date",
+      "failure_reason": "failure_reason",
+      "payment_method": "payment_method",
+      "issuer_bank": "issuer_bank",
+      "created_at": "created_at"
+    }
+  }
+}
